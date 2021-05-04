@@ -6,6 +6,6 @@ describe('App', () => {
     const wrapper = shallow(<App />);
 
     it('renders the component', () => {
-        expect(wrapper.find('.app-container').exists()).toBe(true);
+        expect(wrapper.find('.main-container').exists()).toBe(true);
     });
 });
