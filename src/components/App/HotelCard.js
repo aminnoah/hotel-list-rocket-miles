@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.style.scss";
+import noImage from "../../images/noImage.jpg"
+
 
 
 
@@ -21,9 +23,11 @@ const HotelCard = ({hotel}) => {
     <div className="hotel-list">
         <div className="hotel-card" key={hotel.id}>
           <div
+            src={hotel.hotelStaticContent.mainImage.url}
+            alt=""
             className="image"
             style={{
-              backgroundImage: `url(${hotel.hotelStaticContent.mainImage.url})`,
+              backgroundImage: `url(${hotel.hotelStaticContent.mainImage.url}), url(${noImage})`,
             }}
           >
           </div>
@@ -46,7 +50,6 @@ const HotelCard = ({hotel}) => {
             <button className="button">Select</button>
           </div>
         </div>
-      ))
     </div>
   );
 };

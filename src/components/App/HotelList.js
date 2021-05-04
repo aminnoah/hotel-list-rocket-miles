@@ -91,7 +91,7 @@ const HotelList = () => {
 
             {filteredHotels.map((hotel, idx) => (
         <HotelCard key={idx} hotel={hotel} />
-      ))}
+            ))}
         </div>
       </div>
     </div>
