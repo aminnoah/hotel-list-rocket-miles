@@ -7,16 +7,38 @@ const HotelList = () => {
 
   const [hotels, setHotels] = useState([]);
   const [searchTerm, setSearchTerm] = useState([""]);
-  const [sortBy, setSortBy] = useState(["recommend"]);
-  // const [filteredHotels, setFilteredHotels] = useState([]);
+  const [sortBy, setSortBy] = useState("recommend");
+  const [filteredHotels, setFilteredHotels] = useState([]);
 
+  let unFilteredHotels;
 
   useEffect(() => {
     hotelResultService.get().then((response) => {
       setHotels(response.results.hotels);
     });
   }, []);
-  console.log(hotels)
+
+  useEffect(() => {
+    const newFilteredHotels = hotels
+        .filter((hotel) =>
+            hotel.hotelStaticContent.name.toLowerCase().includes(searchTerm.toString().toLowerCase())
+        )
+        .sort((a, b) => {
+            switch (sortBy) {
+                case 'ascend':
+                    return a.lowestAveragePrice.amount - b.lowestAveragePrice.amount;
+                    break;
+                case 'descend':
+                    return b.lowestAveragePrice.amount - a.lowestAveragePrice.amount;
+                    break;
+                case 'recommend':
+                default:
+                    return 0;
+                    break;
+            }
+        });
+    setFilteredHotels(newFilteredHotels);
+}, [searchTerm, hotels, sortBy]);
 
   // useEffect(() => {
   //   setFilteredHotels(
@@ -26,14 +48,14 @@ const HotelList = () => {
   //   );
   // }, [searchTerm, hotels]);
 
-  const sorted = hotels.sort((a, b) => {
-    let sortedAB = a.lowestAveragePrice.amount - b.lowestAveragePrice.amount;
+  // const sorted = hotels.sort((a, b) => {
+  //   let sortedAB = a.lowestAveragePrice.amount - b.lowestAveragePrice.amount;
 
-    let sortedBA = b.lowestAveragePrice.amount - a.lowestAveragePrice.amount;
+  //   let sortedBA = b.lowestAveragePrice.amount - a.lowestAveragePrice.amount;
 
-    return sortBy === "ascend" ? sortedAB : sortedBA;   
+  //   return sortBy === "ascend" ? sortedAB : sortedBA;   
     
-  })
+  // })
 
 
 
@@ -50,21 +72,11 @@ const HotelList = () => {
               maxLength={25}
               value={searchTerm}
               onChange={e => {
-
-                const test = hotels.filter(hotel => {
-
-                  return hotel.hotelStaticContent.name.toLowerCase().includes(e.target.value.toLowerCase());
-                });
-                console.log("test: ", test);
-      
-                // uncomment line below and teams is logged as I want
-                setHotels(test);
-                setSearchTerm(e.target.value);
+                setSearchTerm(e.target.value)
               }}
             />
             <label htmlFor="select">Price </label>
             <select name="" className="select" onChange={(e) => setSortBy(e.target.value)}>
-              console.log(sortBy)
               <option value="recommend">Recommended</option>
               <option value="ascend">Price low-to-high</option>
               <option value="descend">Price high-to-low</option>
@@ -77,8 +89,8 @@ const HotelList = () => {
             <HotelCard key={idx} hotels={hotels} />
             ))} */}
 
-            {sorted.map((hotel, idx) => (
-        <HotelCard key={idx} hotels={hotels} />
+            {filteredHotels.map((hotel, idx) => (
+        <HotelCard key={idx} hotel={hotel} />
       ))}
         </div>
       </div>

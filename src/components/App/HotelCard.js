@@ -2,17 +2,23 @@ import React, { useState, useEffect } from "react";
 import "./App.style.scss";
 
 
-const HotelCard = ({hotels}) => {
 
-  const onError = () => {
-    if (!hotel.hotelStaticContent.mainImage.url) {
+const HotelCard = ({hotel}) => {
+
+  
+
+  // const onError = () => {
+  //   fet
+  //   let imageUrl = ""
+  //   if (hotel.hotelStaticContent.mainImage.url) {
+  //     imageUrl = hotel.hotelStaticContent.mainImage.url
+
       
-    }
-  }
+  //   }
+  // }
 
   return (
     <div className="hotel-list">
-      {hotels.map((hotel) => (
         <div className="hotel-card" key={hotel.id}>
           <div
             className="image"
@@ -20,7 +26,6 @@ const HotelCard = ({hotels}) => {
               backgroundImage: `url(${hotel.hotelStaticContent.mainImage.url})`,
             }}
           >
-            {/* <img href='${hotel.hotelStaticContent.mainImage.url}'></img> */}
           </div>
           <div className="hotel-details">
             <div className="hotel-name">{hotel.hotelStaticContent.name}</div>
@@ -41,7 +46,7 @@ const HotelCard = ({hotels}) => {
             <button className="button">Select</button>
           </div>
         </div>
-      ))}
+      ))
     </div>
   );
 };
